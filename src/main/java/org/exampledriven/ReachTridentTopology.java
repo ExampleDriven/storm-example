@@ -29,7 +29,6 @@ import storm.trident.TridentTopology;
 import storm.trident.operation.*;
 import storm.trident.operation.builtin.Count;
 import storm.trident.operation.builtin.Debug;
-import storm.trident.operation.builtin.MapGet;
 import storm.trident.tuple.TridentTuple;
 
 import java.util.*;
@@ -98,31 +97,19 @@ public class ReachTridentTopology {
     }
 
     private static void addSteps(Stream stream) {
-        //        stream.each(new Fields("args"), new GetTweeters(), new Fields(TWEETER))
-        //            .each(new Fields(TWEETER), new GetFollowers(), new Fields(FOLLOWER))
-        //            .each(new Fields(FOLLOWER), new UniqueFilter())
-        //            .aggregate(new Count(), new Fields("reach"));
 
         stream.each(new Fields("args"), new Debug("input"))
-                .each(new Fields("args"), new GetTweeters(), new Fields(TWEETER))
-                .each(new Fields(TWEETER), new Debug("GetTweeters"))
+            .each(new Fields("args"), new GetTweeters(), new Fields(TWEETER))
+            .each(new Fields(TWEETER), new Debug("GetTweeters"))
 
-                .each(new Fields(TWEETER), new GetFollowers(), new Fields(FOLLOWER))
-                .each(new Fields(FOLLOWER), new Debug("-GetFollowers"))
+            .each(new Fields(TWEETER), new GetFollowers(), new Fields(FOLLOWER))
+            .each(new Fields(FOLLOWER), new Debug("-GetFollowers"))
 
-                .each(new Fields(FOLLOWER), new UniqueFilter())
-                .each(new Fields(FOLLOWER), new Debug("--UniqueFilter"))
+            .each(new Fields(FOLLOWER), new UniqueFilter())
+            .each(new Fields(FOLLOWER), new Debug("--UniqueFilter"))
 
-                .aggregate(new Fields(FOLLOWER), new Count(), new Fields("reach"))
-                .each(new Fields("reach"), new Debug("---count"));
-
-//        topology.newDRPCStream("reach")
-//                .stateQuery(urlToTweeters, new Fields("args"), new MapGet(), new Fields("tweeters"))
-//                .each(new Fields("tweeters"), new ExpandList(), new Fields("tweeter")).shuffle()
-//                .stateQuery(tweetersToFollowers, new Fields("tweeter"), new MapGet(), new Fields("followers"))
-//                .parallelismHint(200).each(new Fields("followers"), new ExpandList(), new Fields("follower"))
-//                .groupBy(new Fields("follower")).aggregate(new One(), new Fields("one")).parallelismHint(20)
-//                .aggregate(new Count(), new Fields("reach"));
+            .aggregate(new Count(), new Fields("reach"))
+            .each(new Fields("reach"), new Debug("---count"));
 
     }
 

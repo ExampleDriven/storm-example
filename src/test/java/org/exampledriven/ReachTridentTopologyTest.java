@@ -24,10 +24,10 @@ public class ReachTridentTopologyTest {
 
     }
 
-    @Test(dataProvider = "url")
+    @Test(dataProvider = "url", groups = "integration")
     public void testRemoteDrpc(String reach, String url) throws TException, DRPCExecutionException {
 
-        DRPCClient client = new DRPCClient("evhubudsd6134.budapest.epam.com", 3772);
+        DRPCClient client = new DRPCClient("storm-server", 3772);
         String drpcResult = client.execute(ReachTridentTopology.HANDLER_NAME, url);
 
         assertEquals(drpcResult, reach);

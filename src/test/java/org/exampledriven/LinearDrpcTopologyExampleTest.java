@@ -13,9 +13,9 @@ import static org.testng.Assert.assertEquals;
 public class LinearDrpcTopologyExampleTest {
 
 
-    @Test
+    @Test(groups = "integration")
     public void testRemoteDrpc() throws TException, DRPCExecutionException {
-        DRPCClient client = new DRPCClient("evhubudsd6134.budapest.epam.com", 3772);
+        DRPCClient client = new DRPCClient("storm-server", 3772);
         String drpcResult = client.execute(new LinearDrpcTopologyBuilderExample().getHandlerName(), "hello");
         
         assertEquals("hello !", drpcResult);
