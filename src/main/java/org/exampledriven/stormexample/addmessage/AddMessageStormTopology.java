@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven.stormexample.storm.addmessage;
+package org.exampledriven.stormexample.addmessage;
 
 import backtype.storm.Config;
 import backtype.storm.StormSubmitter;
 import backtype.storm.testing.TestWordSpout;
 import backtype.storm.topology.TopologyBuilder;
-import org.exampledriven.stormexample.storm.addmessage.bolt.AddMessageBolt;
+import org.exampledriven.stormexample.addmessage.bolt.AddMessageBolt;
 
 /**
  * Similar to {@link AddMessageTridentTopology} but implemented with storm

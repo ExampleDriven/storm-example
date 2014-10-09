@@ -1,16 +1,12 @@
-package org.exampledriven.stormexample.storm.addmessage.bolt;
+package org.exampledriven.stormexample.addmessage.bolt;
 
 import backtype.storm.task.OutputCollector;
-import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseBasicBolt;
-import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
-
-import java.util.Map;
 
 public class AddMessageBolt extends BaseBasicBolt {
     public static final String WORD = "word";

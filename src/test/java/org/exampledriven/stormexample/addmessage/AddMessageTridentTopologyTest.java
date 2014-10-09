@@ -1,4 +1,4 @@
-package org.exampledriven.stormexample.storm.addmessage;
+package org.exampledriven.stormexample.addmessage;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
@@ -6,7 +6,6 @@ import backtype.storm.LocalDRPC;
 import backtype.storm.generated.DRPCExecutionException;
 import backtype.storm.utils.DRPCClient;
 import org.apache.thrift7.TException;
-import org.exampledriven.stormexample.storm.addmessage.AddMessageTridentTopology;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

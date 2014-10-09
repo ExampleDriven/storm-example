@@ -1,4 +1,4 @@
-package org.exampledriven.stormexample.storm.addmessage.bolt;
+package org.exampledriven.stormexample.addmessage.bolt;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;

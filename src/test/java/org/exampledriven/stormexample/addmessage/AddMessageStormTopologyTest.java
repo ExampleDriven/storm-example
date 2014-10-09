@@ -1,10 +1,9 @@
-package org.exampledriven.stormexample.storm.addmessage;
+package org.exampledriven.stormexample.addmessage;
 
 import backtype.storm.Config;
 import backtype.storm.ILocalCluster;
 import backtype.storm.LocalCluster;
 import backtype.storm.utils.Utils;
-import org.exampledriven.stormexample.storm.addmessage.AddMessageStormTopology;
 import org.testng.annotations.Test;
 
 public class AddMessageStormTopologyTest {

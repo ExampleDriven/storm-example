@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven.stormexample.storm.addmessage;
+package org.exampledriven.stormexample.addmessage;
 
 import backtype.storm.drpc.LinearDRPCTopologyBuilder;
 import backtype.storm.tuple.Fields;
 import org.exampledriven.stormexample.base.DrpcTopologyBuilder;
-import org.exampledriven.stormexample.storm.addmessage.bolt.AddMessageBolt;
-import org.exampledriven.stormexample.storm.addmessage.bolt.MessageCollectorBolt;
-import org.exampledriven.stormexample.storm.addmessage.bolt.FieldRenameBolt;
+import org.exampledriven.stormexample.addmessage.bolt.AddMessageBolt;
+import org.exampledriven.stormexample.addmessage.bolt.MessageCollectorBolt;
+import org.exampledriven.stormexample.addmessage.bolt.FieldRenameBolt;
 
 public class AddMessageLinearDRPCTopology extends DrpcTopologyBuilder {
 

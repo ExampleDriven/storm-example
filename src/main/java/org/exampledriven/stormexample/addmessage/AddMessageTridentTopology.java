@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven.stormexample.storm.addmessage;
+package org.exampledriven.stormexample.addmessage;
 
 import backtype.storm.Config;
 import backtype.storm.ILocalDRPC;
@@ -31,7 +31,7 @@ import storm.trident.operation.TridentCollector;
 import storm.trident.tuple.TridentTuple;
 
 /**
- * Similar to {@link org.exampledriven.stormexample.storm.addmessage.AddMessageStormTopology} but implemented with Trident
+ * Similar to {@link org.exampledriven.stormexample.addmessage.AddMessageStormTopology} but implemented with Trident
  */
 public class AddMessageTridentTopology {
 

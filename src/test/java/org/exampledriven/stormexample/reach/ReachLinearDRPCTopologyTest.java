@@ -1,9 +1,8 @@
-package org.exampledriven.stormexample.storm.reach;
+package org.exampledriven.stormexample.reach;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.LocalDRPC;
-import org.exampledriven.stormexample.storm.reach.ReachLinearDRPCTopology;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
