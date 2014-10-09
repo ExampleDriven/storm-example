@@ -1,11 +1,8 @@
-package org.exampledriven.base;
+package org.exampledriven.stormexample.base;
 
-import backtype.storm.Config;
 import backtype.storm.ILocalDRPC;
-import backtype.storm.StormSubmitter;
 import backtype.storm.drpc.LinearDRPCTopologyBuilder;
 import backtype.storm.generated.StormTopology;
-import org.exampledriven.LinearDrpcTopologyBuilderExample;
 
 /**
  * Created by Peter_Szanto on 10/3/2014.
@@ -27,15 +24,6 @@ public abstract class DrpcTopologyBuilder {
     protected abstract LinearDRPCTopologyBuilder getLinearDRPCTopologyBuilder();
 
     public abstract String getHandlerName();
-
-    public static void main(String[] args) throws Exception {
-
-        Config conf = new Config();
-        conf.setDebug(true);
-
-        StormSubmitter.submitTopologyWithProgressBar(getCurrentClassName(), conf,
-                new LinearDrpcTopologyBuilderExample().buildStormRemoteTopology());
-    }
 
     private static String getCurrentClassName() {
         return new Throwable() .getStackTrace()[0].getClassName();

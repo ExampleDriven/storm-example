@@ -1,4 +1,4 @@
-package org.exampledriven;
+package org.exampledriven.stormexample.storm.addmessage;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
@@ -10,13 +10,13 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class LinearDrpcTopologyExampleTest {
+public class AddMessageLinearDRPCTopologyTest {
 
 
     @Test(groups = "integration")
     public void testRemoteDrpc() throws TException, DRPCExecutionException {
         DRPCClient client = new DRPCClient("storm-server", 3772);
-        String drpcResult = client.execute(new LinearDrpcTopologyBuilderExample().getHandlerName(), "hello");
+        String drpcResult = client.execute(new AddMessageLinearDRPCTopology().getHandlerName(), "hello");
         
         assertEquals("hello !", drpcResult);
 
@@ -30,15 +30,15 @@ public class LinearDrpcTopologyExampleTest {
 
         LocalCluster cluster = new LocalCluster();
         LocalDRPC drpc = new LocalDRPC();
-        LinearDrpcTopologyBuilderExample drpcTopologyBuilderExample = new LinearDrpcTopologyBuilderExample();
-        cluster.submitTopology("drpc-demo", conf, drpcTopologyBuilderExample.buildStormLocalTopology(drpc));
+        AddMessageLinearDRPCTopology addMessageLinearDRPCTopology = new AddMessageLinearDRPCTopology();
+        cluster.submitTopology("drpc-demo", conf, addMessageLinearDRPCTopology.buildStormLocalTopology(drpc));
 
-        String drpcResult = drpc.execute(drpcTopologyBuilderExample.getHandlerName(), "hello");
+        String drpcResult = drpc.execute(addMessageLinearDRPCTopology.getHandlerName(), "hello");
 
         cluster.shutdown();
         drpc.shutdown();
 
-        assertEquals("hello !", drpcResult);
+        assertEquals(drpcResult, "[\"hello!++\",\"hello!!++\",\"hello!+\",\"hello!!+\"]");
 
     }
 

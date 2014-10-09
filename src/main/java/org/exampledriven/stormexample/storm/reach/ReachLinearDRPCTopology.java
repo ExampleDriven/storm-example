@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven;
+package org.exampledriven.stormexample.storm.reach;
 
 import backtype.storm.coordination.BatchOutputCollector;
 import backtype.storm.drpc.LinearDRPCTopologyBuilder;
@@ -27,9 +27,8 @@ import backtype.storm.topology.base.BaseBatchBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
-import org.exampledriven.base.DrpcTopologyBuilder;
-
 import java.util.*;
+import org.exampledriven.stormexample.base.DrpcTopologyBuilder;
 
 /**
  * This is a good example of doing complex Distributed RPC on top of Storm. This program creates a topology that can
@@ -47,7 +46,7 @@ import java.util.*;
  * <p/>
  * See https://github.com/nathanmarz/storm/wiki/Distributed-RPC for more information on Distributed RPC.
  */
-public class ReachTopology extends DrpcTopologyBuilder {
+public class ReachLinearDRPCTopology extends DrpcTopologyBuilder {
 
     public static final String TWEETER = "tweeter";
     public static final String ID = "id";

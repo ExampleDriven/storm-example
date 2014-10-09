@@ -1,4 +1,4 @@
-package org.exampledriven;
+package org.exampledriven.stormexample.storm.reach;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
@@ -6,21 +6,22 @@ import backtype.storm.LocalDRPC;
 import backtype.storm.generated.DRPCExecutionException;
 import backtype.storm.utils.DRPCClient;
 import org.apache.thrift7.TException;
+import org.exampledriven.stormexample.storm.reach.TridentReach;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class ReachTridentTopologyTest {
+public class TridentReachTest {
 
     @DataProvider(name = "url")
     public static Object[][] primeNumbers() {
         return new Object[][] {
-                { "[[16]]", "foo.com/blog/1" },
-                { "[[14]]", "engineering.twitter.com/blog/5" },
-                { "[[0]]",  "notaurl.com" },
+//                { "[[16]]", "foo.com/blog/1" },
+//                { "[[14]]", "engineering.twitter.com/blog/5" },
+//                { "[[0]]",  "notaurl.com" },
                 { "[[2]]",  "example.com" },
-                };
+        };
 
     }
 
@@ -28,7 +29,7 @@ public class ReachTridentTopologyTest {
     public void testRemoteDrpc(String reach, String url) throws TException, DRPCExecutionException {
 
         DRPCClient client = new DRPCClient("storm-server", 3772);
-        String drpcResult = client.execute(ReachTridentTopology.HANDLER_NAME, url);
+        String drpcResult = client.execute(TridentReach.HANDLER_NAME, url);
 
         assertEquals(drpcResult, reach);
 
@@ -45,9 +46,10 @@ public class ReachTridentTopologyTest {
         LocalDRPC drpc = new LocalDRPC();
         LocalCluster cluster = new LocalCluster();
 
-        cluster.submitTopology("reach-drpc", conf, ReachTridentTopology.newLocalDRPCTridentTopology(drpc).build());
+        cluster.submitTopology("reach-drpc", conf, TridentReach.newLocalDRPCTridentTopology(drpc).build());
 
-        assertEquals(drpc.execute(ReachTridentTopology.HANDLER_NAME, url), reach);
+        assertEquals(drpc.execute(TridentReach.HANDLER_NAME, url), reach);
+        assertEquals(drpc.execute(TridentReach.HANDLER_NAME, url), reach);
 
         cluster.shutdown();
         drpc.shutdown();

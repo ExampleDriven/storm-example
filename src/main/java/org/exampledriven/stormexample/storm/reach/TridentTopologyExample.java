@@ -15,19 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven;
+package org.exampledriven.stormexample.storm.reach;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.StormSubmitter;
-import backtype.storm.task.OutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 import backtype.storm.utils.Utils;
+import org.exampledriven.stormexample.storm.wordcount.TridentWordCount;
 import storm.trident.Stream;
 import storm.trident.TridentState;
 import storm.trident.TridentTopology;
@@ -38,42 +34,10 @@ import storm.trident.operation.builtin.Sum;
 import storm.trident.testing.FixedBatchSpout;
 import storm.trident.testing.MemoryMapState;
 
-import java.util.Map;
-
 /**
  * This is a basic example of a Storm topology.
  */
 public class TridentTopologyExample {
-
-    public static final String WORD_SPOUT = "word spout";
-    public static final String EXCLAIM = "exclaim";
-    public static final String HYPHEN = "hyphen";
-
-    public static class MessageBolt extends BaseRichBolt {
-        private final String message;
-        OutputCollector _collector;
-
-        public MessageBolt(String message) {
-            this.message = message;
-        }
-
-        @Override
-        public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
-            _collector = collector;
-        }
-
-        @Override
-        public void execute(Tuple tuple) {
-            _collector.emit(tuple, new Values(tuple.getStringByField("word") + message));
-            _collector.ack(tuple);
-        }
-
-        @Override
-        public void declareOutputFields(OutputFieldsDeclarer declarer) {
-            declarer.declare(new Fields("word"));
-        }
-
-    }
 
     public static void main(String[] args) throws Exception {
 
@@ -117,19 +81,4 @@ public class TridentTopologyExample {
         }
     }
 
-//    public void test() {
-//
-//        TridentTopology topology = new TridentTopology();
-//
-//        TridentState urlToTweeters = topology.newStaticState(getUrlToTweetersState());
-//        TridentState tweetersToFollowers = topology.newStaticState(getTweeterToFollowersState());
-//
-//        topology.newDRPCStream("reach")
-//                .stateQuery(urlToTweeters, new Fields("args"), new MapGet(), new Fields("tweeters"))
-//                .each(new Fields("tweeters"), new TridentReach.ExpandList(), new Fields("tweeter")).shuffle()
-//                .stateQuery(tweetersToFollowers, new Fields("tweeter"), new MapGet(), new Fields("followers"))
-//                .parallelismHint(200).each(new Fields("followers"), new TridentReach.ExpandList(), new Fields("follower"))
-//                .groupBy(new Fields("follower")).aggregate(new TridentReach.One(), new Fields("one")).parallelismHint(20)
-//                .aggregate(new Count(), new Fields("reach"));
-//    }
 }

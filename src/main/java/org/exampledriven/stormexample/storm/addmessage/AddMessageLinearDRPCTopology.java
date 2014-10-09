@@ -15,41 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven;
+package org.exampledriven.stormexample.storm.addmessage;
 
 import backtype.storm.drpc.LinearDRPCTopologyBuilder;
-import backtype.storm.topology.BasicOutputCollector;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Tuple;
-import backtype.storm.tuple.Values;
-import org.exampledriven.base.DrpcTopologyBuilder;
+import org.exampledriven.stormexample.base.DrpcTopologyBuilder;
+import org.exampledriven.stormexample.storm.addmessage.bolt.AddMessageBolt;
+import org.exampledriven.stormexample.storm.addmessage.bolt.MessageCollectorBolt;
+import org.exampledriven.stormexample.storm.addmessage.bolt.FieldRenameBolt;
 
-/**
- * This is a basic example of a Storm topology.
- */
-public class LinearDrpcTopologyBuilderExample extends DrpcTopologyBuilder {
-
-
-    public static class ExclaimBolt extends BaseBasicBolt {
-
-        @Override
-        public void execute(Tuple tuple, BasicOutputCollector collector) {
-            String input = tuple.getString(1);
-            collector.emit(new Values(tuple.getValue(0), input + " !"));
-        }
-
-        @Override
-        public void declareOutputFields(OutputFieldsDeclarer declarer) {
-            declarer.declare(new Fields("id", "result"));
-        }
-    }
+public class AddMessageLinearDRPCTopology extends DrpcTopologyBuilder {
 
     protected LinearDRPCTopologyBuilder getLinearDRPCTopologyBuilder() {
 
         LinearDRPCTopologyBuilder builder = new LinearDRPCTopologyBuilder(getHandlerName());
-        builder.addBolt(new ExclaimBolt(), 3);
+
+        builder.addBolt(new FieldRenameBolt("args", "word"), 5).shuffleGrouping();
+        builder.addBolt(new AddMessageBolt("!", "!!"), 5).shuffleGrouping();
+        builder.addBolt(new AddMessageBolt("+", "++"), 3).shuffleGrouping();
+        builder.addBolt(new MessageCollectorBolt(), 3).fieldsGrouping(new Fields("id"));
+
         return builder;
     }
 

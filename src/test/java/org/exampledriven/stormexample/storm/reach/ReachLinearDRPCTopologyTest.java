@@ -1,14 +1,15 @@
-package org.exampledriven;
+package org.exampledriven.stormexample.storm.reach;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.LocalDRPC;
+import org.exampledriven.stormexample.storm.reach.ReachLinearDRPCTopology;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class ReachTopologyTest {
+public class ReachLinearDRPCTopologyTest {
 
     @DataProvider(name = "url")
     public static Object[][] primeNumbers() {
@@ -31,7 +32,7 @@ public class ReachTopologyTest {
         conf.setMaxTaskParallelism(3);
         LocalDRPC drpc = new LocalDRPC();
         LocalCluster cluster = new LocalCluster();
-        ReachTopology reachTopology = new ReachTopology();
+        ReachLinearDRPCTopology reachTopology = new ReachLinearDRPCTopology();
 
         cluster.submitTopology("reach-drpc", conf, reachTopology.buildStormLocalTopology(drpc));
 

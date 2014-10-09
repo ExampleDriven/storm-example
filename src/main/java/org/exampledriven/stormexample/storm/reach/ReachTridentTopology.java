@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven;
+package org.exampledriven.stormexample.storm.reach;
 
 import backtype.storm.Config;
 import backtype.storm.ILocalDRPC;
@@ -28,27 +28,10 @@ import storm.trident.Stream;
 import storm.trident.TridentTopology;
 import storm.trident.operation.*;
 import storm.trident.operation.builtin.Count;
-import storm.trident.operation.builtin.Debug;
 import storm.trident.tuple.TridentTuple;
 
 import java.util.*;
 
-/**
- * This is a good example of doing complex Distributed RPC on top of Storm. This program creates a topology that can
- * compute the reach for any URL on Twitter in realtime by parallelizing the whole computation.
- * <p/>
- * Reach is the number of unique people exposed to a URL on Twitter. To compute reach, you have to get all the people
- * who tweeted the URL, get all the followers of all those people, unique that set of followers, and then count the
- * unique set. It's an intense computation that can involve thousands of database calls and tens of millions of follower
- * records.
- * <p/>
- * This Storm topology does every piece of that computation in parallel, turning what would be a computation that takes
- * minutes on a single machine into one that takes just a couple seconds.
- * <p/>
- * For the purposes of demonstration, this topology replaces the use of actual DBs with in-memory hashmaps.
- * <p/>
- * See https://github.com/nathanmarz/storm/wiki/Distributed-RPC for more information on Distributed RPC.
- */
 public class ReachTridentTopology {
 
     public static final String TWEETER = "tweeter";
@@ -98,18 +81,12 @@ public class ReachTridentTopology {
 
     private static void addSteps(Stream stream) {
 
-        stream.each(new Fields("args"), new Debug("input"))
+        stream
             .each(new Fields("args"), new GetTweeters(), new Fields(TWEETER))
-            .each(new Fields(TWEETER), new Debug("GetTweeters"))
-
             .each(new Fields(TWEETER), new GetFollowers(), new Fields(FOLLOWER))
-            .each(new Fields(FOLLOWER), new Debug("-GetFollowers"))
-
-            .each(new Fields(FOLLOWER), new UniqueFilter())
-            .each(new Fields(FOLLOWER), new Debug("--UniqueFilter"))
-
-            .aggregate(new Count(), new Fields("reach"))
-            .each(new Fields("reach"), new Debug("---count"));
+            .groupBy(new Fields(FOLLOWER))
+            .aggregate(new Count(), new Fields("unique follower"))
+            .aggregate(new Count(), new Fields("reach"));
 
     }
 

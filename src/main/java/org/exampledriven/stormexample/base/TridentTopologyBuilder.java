@@ -1,12 +1,4 @@
-package org.exampledriven.base;
-
-import backtype.storm.Config;
-import backtype.storm.ILocalDRPC;
-import backtype.storm.StormSubmitter;
-import backtype.storm.drpc.LinearDRPCTopologyBuilder;
-import backtype.storm.generated.StormTopology;
-import org.exampledriven.LinearDrpcTopologyBuilderExample;
-import storm.trident.TridentTopology;
+package org.exampledriven.stormexample.base;
 
 /**
  * Created by Peter_Szanto on 10/3/2014.
