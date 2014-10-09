@@ -23,7 +23,7 @@ import backtype.storm.StormSubmitter;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
 import backtype.storm.utils.Utils;
-import org.exampledriven.stormexample.storm.wordcount.TridentWordCount;
+import org.exampledriven.stormexample.wordcount.TridentWordCount;
 import storm.trident.Stream;
 import storm.trident.TridentState;
 import storm.trident.TridentTopology;

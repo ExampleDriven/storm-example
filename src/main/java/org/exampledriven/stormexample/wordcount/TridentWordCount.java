@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven.stormexample.storm.wordcount;
+package org.exampledriven.stormexample.wordcount;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
