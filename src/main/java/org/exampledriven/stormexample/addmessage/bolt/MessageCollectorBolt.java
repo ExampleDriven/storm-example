@@ -17,10 +17,14 @@ public class MessageCollectorBolt extends BaseBatchBolt {
     private Object id;
     private BatchOutputCollector collector;
 
-    private Set<String> result = new HashSet<>();
+    private Set<String> result;
+
+    public MessageCollectorBolt() {
+    }
 
     @Override
     public void prepare(Map conf, TopologyContext context, BatchOutputCollector collector, Object id) {
+        result = new HashSet<>();
         this.id = id;
         this.collector = collector;
     }

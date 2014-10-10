@@ -5,8 +5,11 @@ import backtype.storm.LocalCluster;
 import backtype.storm.LocalDRPC;
 import backtype.storm.generated.DRPCExecutionException;
 import backtype.storm.utils.DRPCClient;
+import com.google.common.collect.ImmutableSet;
+import com.google.gson.Gson;
 import org.apache.thrift7.TException;
 import org.testng.annotations.Test;
+import java.util.HashSet;
 
 import static org.testng.Assert.assertEquals;
 
@@ -33,13 +36,20 @@ public class AddMessageLinearDRPCTopologyTest {
         AddMessageLinearDRPCTopology addMessageLinearDRPCTopology = new AddMessageLinearDRPCTopology();
         cluster.submitTopology("drpc-demo", conf, addMessageLinearDRPCTopology.buildStormLocalTopology(drpc));
 
-        String drpcResult = drpc.execute(addMessageLinearDRPCTopology.getHandlerName(), "hello");
+        executeAndAssert(drpc, addMessageLinearDRPCTopology, "hello1");
+        executeAndAssert(drpc, addMessageLinearDRPCTopology, "hello2");
+        executeAndAssert(drpc, addMessageLinearDRPCTopology, "hello3");
 
         cluster.shutdown();
         drpc.shutdown();
 
-        assertEquals(drpcResult, "[\"hello!++\",\"hello!!++\",\"hello!+\",\"hello!!+\"]");
 
+    }
+
+    public void executeAndAssert(LocalDRPC drpc, AddMessageLinearDRPCTopology addMessageLinearDRPCTopology, String param) {
+        String drpcResult = drpc.execute(addMessageLinearDRPCTopology.getHandlerName(), param);
+        HashSet drpcResultSet = new Gson().fromJson(drpcResult, HashSet.class);
+        assertEquals(drpcResultSet, ImmutableSet.of(param + "!++", param + "!!++", param + "!+", param + "!!+"));
     }
 
 }

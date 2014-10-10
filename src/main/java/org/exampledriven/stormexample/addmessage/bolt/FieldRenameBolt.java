@@ -2,7 +2,9 @@ package org.exampledriven.stormexample.addmessage.bolt;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
+import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
+import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
@@ -10,7 +12,7 @@ import backtype.storm.tuple.Values;
 
 import java.util.Map;
 
-public class FieldRenameBolt extends BaseRichBolt {
+public class FieldRenameBolt extends BaseBasicBolt {
     private final String originalName;
     private final String newName;
     OutputCollector collector;
@@ -21,23 +23,17 @@ public class FieldRenameBolt extends BaseRichBolt {
     }
 
     @Override
-    public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
-        this.collector = collector;
-    }
-
-    @Override
-    public void execute(Tuple tuple) {
-        String word = tuple.getStringByField(originalName);
-        Object id = tuple.getValue(0);
-
-        collector.emit(tuple, new Values(id, word));
-
-        collector.ack(tuple);
-    }
-
-    @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         declarer.declare(new Fields("id", newName));
     }
 
+    @Override
+    public void execute(Tuple tuple, BasicOutputCollector collector) {
+        String word = tuple.getStringByField(originalName);
+        Object id = tuple.getValue(0);
+
+        collector.emit(new Values(id, word));
+
+
+    }
 }
