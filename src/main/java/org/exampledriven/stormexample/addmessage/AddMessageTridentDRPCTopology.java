@@ -67,7 +67,7 @@ public class AddMessageTridentDRPCTopology {
 
         stream
             .each(new Fields("args"), new AddMessageFunction("!", "!!"), new Fields(EX_1,EX_2))
-            .each(new Fields(EX_1, EX_2), new AddMessageFunction("+", "++"), new Fields(P1, P2))
+            .each(new Fields(EX_1, EX_2), new AddMessageFunction("+", "++"), new Fields(P1, P2)).parallelismHint(2)
             .project(new Fields(P1,P2));
 
     }
