@@ -33,7 +33,7 @@ import storm.trident.tuple.TridentTuple;
 /**
  * Similar to {@link org.exampledriven.stormexample.addmessage.AddMessageStormTopology} but implemented with Trident
  */
-public class AddMessageTridentTopology {
+public class AddMessageTridentDRPCTopology {
 
     public static final String HANDLER_NAME = "trident-exclamation-plus";
     public static final String EX_1 = "ex1";
@@ -95,7 +95,7 @@ public class AddMessageTridentTopology {
         Config conf = new Config();
         conf.setDebug(true);
         StormSubmitter.submitTopologyWithProgressBar("ExclamationPlusTridentTopology", conf,
-                AddMessageTridentTopology.newRemoteDRPCTridentTopology().build());
+                AddMessageTridentDRPCTopology.newRemoteDRPCTridentTopology().build());
     }
 
 }

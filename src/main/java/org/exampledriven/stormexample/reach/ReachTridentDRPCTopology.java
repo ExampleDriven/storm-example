@@ -32,7 +32,7 @@ import storm.trident.tuple.TridentTuple;
 
 import java.util.*;
 
-public class ReachTridentTopology {
+public class ReachTridentDRPCTopology {
 
     public static final String TWEETER = "tweeter";
     public static final String FOLLOWER = "follower";
@@ -121,8 +121,8 @@ public class ReachTridentTopology {
     public static void main(String[] args) throws AlreadyAliveException, InvalidTopologyException {
         Config conf = new Config();
         conf.setDebug(true);
-        StormSubmitter.submitTopologyWithProgressBar("ReachTridentTopology", conf,
-                ReachTridentTopology.newRemoteDRPCTridentTopology().build());
+        StormSubmitter.submitTopologyWithProgressBar("ReachTridentDRPCTopology", conf,
+                ReachTridentDRPCTopology.newRemoteDRPCTridentTopology().build());
     }
 
 }

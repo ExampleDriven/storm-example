@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class ReachTridentTopologyTest {
+public class ReachTridentDRPCTopologyTest {
 
     @DataProvider(name = "url")
     public static Object[][] primeNumbers() {
@@ -28,7 +28,7 @@ public class ReachTridentTopologyTest {
     public void testRemoteDrpc(String reach, String url) throws TException, DRPCExecutionException {
 
         DRPCClient client = new DRPCClient("storm-server", 3772);
-        String drpcResult = client.execute(ReachTridentTopology.HANDLER_NAME, url);
+        String drpcResult = client.execute(ReachTridentDRPCTopology.HANDLER_NAME, url);
 
         assertEquals(drpcResult, reach);
 
@@ -45,10 +45,10 @@ public class ReachTridentTopologyTest {
         LocalDRPC drpc = new LocalDRPC();
         LocalCluster cluster = new LocalCluster();
 
-        cluster.submitTopology("reach-drpc", conf, ReachTridentTopology.newLocalDRPCTridentTopology(drpc).build());
+        cluster.submitTopology("reach-drpc", conf, ReachTridentDRPCTopology.newLocalDRPCTridentTopology(drpc).build());
 
-        assertEquals(drpc.execute(ReachTridentTopology.HANDLER_NAME, url), reach);
-        assertEquals(drpc.execute(ReachTridentTopology.HANDLER_NAME, url), reach);
+        assertEquals(drpc.execute(ReachTridentDRPCTopology.HANDLER_NAME, url), reach);
+        assertEquals(drpc.execute(ReachTridentDRPCTopology.HANDLER_NAME, url), reach);
 
         cluster.shutdown();
         drpc.shutdown();

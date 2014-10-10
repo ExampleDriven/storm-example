@@ -24,7 +24,7 @@ import backtype.storm.topology.TopologyBuilder;
 import org.exampledriven.stormexample.addmessage.bolt.AddMessageBolt;
 
 /**
- * Similar to {@link AddMessageTridentTopology} but implemented with storm
+ * Similar to {@link AddMessageTridentDRPCTopology} but implemented with storm
  */
 public class AddMessageStormTopology {
 

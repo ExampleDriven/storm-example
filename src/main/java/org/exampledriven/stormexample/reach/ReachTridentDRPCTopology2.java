@@ -37,7 +37,7 @@ import storm.trident.tuple.TridentTuple;
 
 import java.util.*;
 
-public class TridentReach {
+public class ReachTridentDRPCTopology2 {
 
     public static final String HANDLER_NAME = "trident-reach";
 
@@ -165,7 +165,7 @@ public class TridentReach {
 
         Config conf = new Config();
         conf.setDebug(true);
-        StormSubmitter.submitTopologyWithProgressBar("TridentReach", conf,
-              TridentReach.newRemoteDRPCTridentTopology().build());
+        StormSubmitter.submitTopologyWithProgressBar("ReachTridentDRPCTopology2", conf,
+              ReachTridentDRPCTopology2.newRemoteDRPCTridentTopology().build());
     }
 }
