@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven.stormexample.addmessage;
+package org.exampledriven.stormexample.addmessage.singlestream;
 
 import backtype.storm.Config;
 import backtype.storm.StormSubmitter;

@@ -1,4 +1,4 @@
-package org.exampledriven.stormexample.addmessage;
+package org.exampledriven.stormexample.addmessage.singlestream;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;

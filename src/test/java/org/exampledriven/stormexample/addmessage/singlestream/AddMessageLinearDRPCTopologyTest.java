@@ -1,4 +1,4 @@
-package org.exampledriven.stormexample.addmessage;
+package org.exampledriven.stormexample.addmessage.singlestream;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
@@ -9,24 +9,23 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import org.apache.thrift7.TException;
 import org.testng.annotations.Test;
-
 import java.util.HashSet;
 
 import static org.testng.Assert.assertEquals;
 
-public class AddMessageMultipleStreamLinearDRPCTopologyTest {
+public class AddMessageLinearDRPCTopologyTest {
 
 
     @Test(groups = "integration")
     public void testRemoteDrpc() throws TException, DRPCExecutionException {
         DRPCClient client = new DRPCClient("storm-server", 3772);
-        String drpcResult = client.execute(new AddMessageMultipleStreamLinearDRPCTopology().getHandlerName(), "hello");
+        String drpcResult = client.execute(new AddMessageLinearDRPCTopology().getHandlerName(), "hello");
         
         assertEquals("hello !", drpcResult);
 
     }
 
-//    @Test
+    @Test
     public void testLocalDrpc() throws Exception {
 
         Config conf = new Config();
@@ -34,12 +33,12 @@ public class AddMessageMultipleStreamLinearDRPCTopologyTest {
 
         LocalCluster cluster = new LocalCluster();
         LocalDRPC drpc = new LocalDRPC();
-        AddMessageMultipleStreamLinearDRPCTopology addMessageMultipleStreamLinearDRPCTopology = new AddMessageMultipleStreamLinearDRPCTopology();
-        cluster.submitTopology("drpc-demo", conf, addMessageMultipleStreamLinearDRPCTopology.buildStormLocalTopology(drpc));
+        AddMessageLinearDRPCTopology addMessageLinearDRPCTopology = new AddMessageLinearDRPCTopology();
+        cluster.submitTopology("drpc-demo", conf, addMessageLinearDRPCTopology.buildStormLocalTopology(drpc));
 
-        executeAndAssert(drpc, addMessageMultipleStreamLinearDRPCTopology, "hello1");
-        executeAndAssert(drpc, addMessageMultipleStreamLinearDRPCTopology, "hello2");
-        executeAndAssert(drpc, addMessageMultipleStreamLinearDRPCTopology, "hello3");
+        executeAndAssert(drpc, addMessageLinearDRPCTopology, "hello1");
+        executeAndAssert(drpc, addMessageLinearDRPCTopology, "hello2");
+        executeAndAssert(drpc, addMessageLinearDRPCTopology, "hello3");
 
         cluster.shutdown();
         drpc.shutdown();
@@ -47,8 +46,8 @@ public class AddMessageMultipleStreamLinearDRPCTopologyTest {
 
     }
 
-    public void executeAndAssert(LocalDRPC drpc, AddMessageMultipleStreamLinearDRPCTopology addMessageMultipleStreamLinearDRPCTopology, String param) {
-        String drpcResult = drpc.execute(addMessageMultipleStreamLinearDRPCTopology.getHandlerName(), param);
+    public void executeAndAssert(LocalDRPC drpc, AddMessageLinearDRPCTopology addMessageLinearDRPCTopology, String param) {
+        String drpcResult = drpc.execute(addMessageLinearDRPCTopology.getHandlerName(), param);
         HashSet drpcResultSet = new Gson().fromJson(drpcResult, HashSet.class);
         assertEquals(drpcResultSet, ImmutableSet.of(param + "!++", param + "!!++", param + "!+", param + "!!+"));
     }

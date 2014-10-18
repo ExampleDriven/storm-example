@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exampledriven.stormexample.addmessage;
+package org.exampledriven.stormexample.addmessage.multiplestream;
 
 import backtype.storm.Config;
 import backtype.storm.ILocalDRPC;
@@ -31,22 +31,20 @@ import storm.trident.operation.TridentCollector;
 import storm.trident.tuple.TridentTuple;
 
 /**
- * Similar to {@link org.exampledriven.stormexample.addmessage.AddMessageStormTopology} but implemented with Trident
+ * Similar to {@link org.exampledriven.stormexample.addmessage.singlestream.AddMessageStormTopology} but implemented with Trident
  */
-public class AddMessageTridentDRPCTopology {
+public class AddMessageMultipleStreamTridentDRPCTopology {
 
     public static final String HANDLER_NAME = "trident-exclamation-plus";
-    public static final String EX_1 = "ex1";
-    public static final String EX_2 = "ex2";
-    public static final String P1 = "pl";
-    public static final String P2 = "p2";
+    public static final String OUTPUT_1 = "ol";
+    public static final String OUTPUT_2 = "o2";
 
     public static TridentTopology newLocalDRPCTridentTopology(ILocalDRPC server) {
 
         TridentTopology topology = new TridentTopology();
         Stream stream = topology.newDRPCStream(HANDLER_NAME, server);
 
-        addSteps(stream);
+        addSteps(topology, stream);
 
         return topology;
 
@@ -57,18 +55,26 @@ public class AddMessageTridentDRPCTopology {
         TridentTopology topology = new TridentTopology();
         Stream stream = topology.newDRPCStream(HANDLER_NAME);
 
-        addSteps(stream);
+//        topology.newStre
+
+        addSteps(topology, stream);
 
         return topology;
 
     }
 
-    private static void addSteps(Stream stream) {
+    private static void addSteps(TridentTopology topology, Stream stream) {
 
-        stream
-            .each(new Fields("args"), new AddMessageFunction("!", "!!"), new Fields(EX_1,EX_2))
-            .each(new Fields(EX_1, EX_2), new AddMessageFunction("+", "++"), new Fields(P1, P2)).parallelismHint(2)
-            .project(new Fields(P1,P2));
+        Stream stream1 = stream
+            .each(new Fields("args"), new AddMessageFunction("!", "!!"), new Fields(OUTPUT_1, OUTPUT_2))
+            .project(new Fields(OUTPUT_1, OUTPUT_2));
+
+        Stream stream2 = stream
+            .each(new Fields("args"), new AddMessageFunction("+", "++"),
+                    new Fields(OUTPUT_1, OUTPUT_2)).parallelismHint(2)
+            .project(new Fields(OUTPUT_1, OUTPUT_2));
+
+        topology.merge(stream1, stream2);
 
     }
 
@@ -95,7 +101,7 @@ public class AddMessageTridentDRPCTopology {
         Config conf = new Config();
         conf.setDebug(true);
         StormSubmitter.submitTopologyWithProgressBar("ExclamationPlusTridentTopology", conf,
-                AddMessageTridentDRPCTopology.newRemoteDRPCTridentTopology().build());
+                AddMessageMultipleStreamTridentDRPCTopology.newRemoteDRPCTridentTopology().build());
     }
 
 }
